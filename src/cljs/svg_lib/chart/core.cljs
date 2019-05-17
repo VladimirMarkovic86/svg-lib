@@ -711,8 +711,8 @@
     y-axis-title :y-axis-title
     horizontal-grid-lines :horizontal-grid-lines
     vertical-grid-lines :vertical-grid-lines
-    svg-width :svg-width
-    svg-height :svg-height
+    width :width
+    height :height
     x-minimum :x-minimum
     y-minimum :y-minimum
     x-maximum :x-maximum
@@ -725,9 +725,9 @@
                (empty?
                  dot-values))
          )
-    (let [width (or svg-width
+    (let [width (or width
                     500)
-          height (or svg-height
+          height (or height
                      500)
           basic-offset 50
           x-axis-title-offset (if (and y-axis-title
@@ -941,14 +941,19 @@
                                                   9)
                                                2))
                                         )
+                         character-count (count
+                                           (format-segment-value
+                                             segment-value
+                                             x-value-type
+                                             selected-language))
                          x-axis-text-y (+ (- height
                                              y-bottom-offset)
                                           20)
                          x-axis-text-attributes {:x x-axis-text-x
                                                  :y x-axis-text-y
                                                  :class "x-axis-value-text"}
-                         x-axis-text-attributes (if (= x-value-type
-                                                       "date")
+                         x-axis-text-attributes (if (< 7
+                                                       character-count)
                                                   (assoc
                                                     x-axis-text-attributes
                                                     :transform
@@ -1003,6 +1008,11 @@
                                                    selected-language))
                                                9))
                                           5)
+                         character-count (count
+                                           (format-segment-value
+                                             segment-value
+                                             y-value-type
+                                             selected-language))
                          y-axis-text-y (+ (- height
                                              y-bottom-offset
                                              segment-pixels)
@@ -1010,8 +1020,8 @@
                          y-text-attributes {:x y-axis-text-x
                                             :y y-axis-text-y
                                             :class "y-axis-value-text"}
-                         y-text-attributes (if (= y-value-type
-                                                  "date")
+                         y-text-attributes (if (< 7
+                                                  character-count)
                                              (assoc
                                                y-text-attributes
                                                :transform
@@ -1570,8 +1580,8 @@
     y-axis-title :y-axis-title
     horizontal-grid-lines :horizontal-grid-lines
     vertical-grid-lines :vertical-grid-lines
-    svg-width :svg-width
-    svg-height :svg-height
+    width :width
+    height :height
     x-minimum :x-minimum
     y-minimum :y-minimum
     x-maximum :x-maximum
@@ -1584,9 +1594,9 @@
                (empty?
                  bar-values))
          )
-    (let [width (or svg-width
+    (let [width (or width
                     500)
-          height (or svg-height
+          height (or height
                      500)
           basic-offset 50
           x-axis-title-offset (if (and y-axis-title
@@ -1824,21 +1834,28 @@
                                             (/ (* (count
                                                     (format-segment-value
                                                       segment-value
-                                                      (when bar-values-on-x-axis
-                                                        value-type)
+                                                      (if bar-values-on-x-axis
+                                                        value-type
+                                                        "string")
                                                       selected-language))
                                                   9)
                                                2))
                                         )
+                         character-count (count
+                                           (format-segment-value
+                                             segment-value
+                                             (if bar-values-on-x-axis
+                                               value-type
+                                               "string")
+                                             selected-language))
                          x-axis-text-y (+ (- height
                                              y-bottom-offset)
                                           20)
                          x-axis-text-attributes {:x x-axis-text-x
                                                  :y x-axis-text-y
                                                  :class "x-axis-value-text"}
-                         x-axis-text-attributes (if (= (when bar-values-on-x-axis
-                                                         value-type)
-                                                       "date")
+                         x-axis-text-attributes (if (< 7
+                                                       character-count)
                                                   (assoc
                                                     x-axis-text-attributes
                                                     :transform
@@ -1854,8 +1871,9 @@
                      (text
                        (format-segment-value
                          segment-value
-                         (when bar-values-on-x-axis
-                           value-type)
+                         (if bar-values-on-x-axis
+                           value-type
+                           "string")
                          selected-language)
                        x-axis-text-attributes))
                   ))
@@ -1894,11 +1912,19 @@
                                             (* (count
                                                  (format-segment-value
                                                    segment-value
-                                                   (when-not bar-values-on-x-axis
-                                                     value-type)
+                                                   (if-not bar-values-on-x-axis
+                                                     value-type
+                                                     "string")
                                                    selected-language))
                                                9))
                                           5)
+                         character-count (count
+                                           (format-segment-value
+                                             segment-value
+                                             (if-not bar-values-on-x-axis
+                                               value-type
+                                               "string")
+                                             selected-language))
                          y-axis-text-y (+ (- height
                                              y-bottom-offset
                                              segment-pixels)
@@ -1906,9 +1932,8 @@
                          y-text-attributes {:x y-axis-text-x
                                             :y y-axis-text-y
                                             :class "y-axis-value-text"}
-                         y-text-attributes (if (= (when-not bar-values-on-x-axis
-                                                    value-type)
-                                                  "date")
+                         y-text-attributes (if (< 7
+                                                  character-count)
                                              (assoc
                                                y-text-attributes
                                                :transform
@@ -1924,8 +1949,9 @@
                      (text
                        (format-segment-value
                          segment-value
-                         (when-not bar-values-on-x-axis
-                           value-type)
+                         (if-not bar-values-on-x-axis
+                           value-type
+                           "string")
                          selected-language)
                        y-text-attributes))
                   ))
@@ -2328,11 +2354,11 @@
   "Builds pie chart clojure map of html elements"
   [{pie-values :pie-values
     value-type :value-type
-    {bar-names :bar-names
+    {piece-names :piece-names
      legend-position :position} :legend
     main-title :main-title
-    svg-width :svg-width
-    svg-height :svg-height
+    width :width
+    height :height
     selected-language :selected-language}]
   (when (and pie-values
              (vector?
@@ -2341,9 +2367,9 @@
                (empty?
                  pie-values))
          )
-    (let [width (or svg-width
+    (let [width (or width
                     500)
-          height (or svg-height
+          height (or height
                      500)
           basic-offset 50
           legend-position (or legend-position
@@ -2351,12 +2377,12 @@
           [top-legend-offset
            right-legend-offset
            bottom-legend-offset
-           left-legend-offset] (if (and bar-names
+           left-legend-offset] (if (and piece-names
                                         (vector?
-                                          bar-names)
+                                          piece-names)
                                         (not
                                           (nil?
-                                            bar-names))
+                                            piece-names))
                                     )
                                  [(if (= legend-position
                                          "top")
@@ -2375,89 +2401,89 @@
                                     65
                                     0)]
                                  [0 0 0 0])
-          bar-names-vector (when (and bar-names
-                                      (vector?
-                                        bar-names)
-                                      (not
-                                        (empty?
-                                          bar-names))
-                                   )
-                             (let [bar-names-vector-a (atom [])
-                                   itr (atom 0)
-                                   lines-number (count
-                                                  bar-names)
-                                   top-bottom-x-start (long
-                                                        (/ (- width
-                                                              (* lines-number
-                                                                 80))
-                                                           2))
-                                   top-y 40
-                                   bottom-y (- height
-                                               30)
-                                   left-right-y-start (long
-                                                        (/ (- height
-                                                              (* lines-number
-                                                                 30))
-                                                           2))
-                                   left-x 30
-                                   right-x (- width
-                                              65)]
-                               (doseq [bar-name bar-names]
-                                 (let [cx (if (contains?
-                                                #{"top"
-                                                  "bottom"}
-                                                legend-position)
-                                            (+ top-bottom-x-start
-                                               (* @itr
-                                                  80))
-                                            (if (= legend-position
-                                                   "right")
-                                              right-x
-                                              (when (= legend-position
-                                                       "left")
-                                                left-x))
-                                           )
-                                       cy (if (= legend-position
-                                                 "top")
-                                            top-y
-                                            (if (= legend-position
-                                                   "bottom")
-                                              bottom-y
-                                              (when (contains?
-                                                      #{"left"
-                                                        "right"}
-                                                      legend-position)
-                                                (+ left-right-y-start
-                                                   (* @itr
-                                                      30))
-                                               ))
-                                           )]
+          piece-names-vector (when (and piece-names
+                                        (vector?
+                                          piece-names)
+                                        (not
+                                          (empty?
+                                            piece-names))
+                                     )
+                               (let [piece-names-vector-a (atom [])
+                                     itr (atom 0)
+                                     lines-number (count
+                                                    piece-names)
+                                     top-bottom-x-start (long
+                                                          (/ (- width
+                                                                (* lines-number
+                                                                   80))
+                                                             2))
+                                     top-y 40
+                                     bottom-y (- height
+                                                 30)
+                                     left-right-y-start (long
+                                                          (/ (- height
+                                                                (* lines-number
+                                                                   30))
+                                                             2))
+                                     left-x 30
+                                     right-x (- width
+                                                65)]
+                                 (doseq [bar-name piece-names]
+                                   (let [cx (if (contains?
+                                                  #{"top"
+                                                    "bottom"}
+                                                  legend-position)
+                                              (+ top-bottom-x-start
+                                                 (* @itr
+                                                    80))
+                                              (if (= legend-position
+                                                     "right")
+                                                right-x
+                                                (when (= legend-position
+                                                         "left")
+                                                  left-x))
+                                             )
+                                         cy (if (= legend-position
+                                                   "top")
+                                              top-y
+                                              (if (= legend-position
+                                                     "bottom")
+                                                bottom-y
+                                                (when (contains?
+                                                        #{"left"
+                                                          "right"}
+                                                        legend-position)
+                                                  (+ left-right-y-start
+                                                     (* @itr
+                                                        30))
+                                                 ))
+                                             )]
+                                     (swap!
+                                       piece-names-vector-a
+                                       conj
+                                       (circle
+                                         nil
+                                         {:cx (str
+                                                cx)
+                                          :cy (str
+                                                cy)
+                                          :r "5"
+                                          :id (str
+                                                "legend-line-" @itr)})
+                                       (text
+                                         bar-name
+                                         {:x (str
+                                               (- cx
+                                                  20))
+                                          :y (str
+                                               (+ cy
+                                                  20))
+                                          :fill "#08c"}))
+                                    )
                                    (swap!
-                                     bar-names-vector-a
-                                     conj
-                                     (circle
-                                       nil
-                                       {:cx (str
-                                              cx)
-                                        :cy (str
-                                              cy)
-                                        :r "5"
-                                        :id (str
-                                              "legend-line-" @itr)})
-                                     (text
-                                       bar-name
-                                       {:x (str
-                                             (- cx
-                                                20))
-                                        :y (str
-                                             (+ cy
-                                                20))
-                                        :fill "#08c"}))
-                                  )
-                                 (swap!
-                                   itr
-                                   inc))
-                               @bar-names-vector-a))
+                                     itr
+                                     inc))
+                                 @piece-names-vector-a))
           left-offset (+ basic-offset
                          left-legend-offset)
           right-offset (+ basic-offset
@@ -2529,7 +2555,7 @@
              :text-anchor "middle"
              :class "main-title"}))
        )
-      (doseq [bar-name bar-names-vector]
+      (doseq [bar-name piece-names-vector]
         (swap!
           chart-content
           conj

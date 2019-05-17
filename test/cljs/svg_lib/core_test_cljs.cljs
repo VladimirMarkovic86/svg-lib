@@ -2,6 +2,7 @@
   (:require [clojure.test :refer-macros [deftest is testing]]
             [utils-lib.core :as utils]
             [svg-lib.chart.core :refer [axis-segment calculate-segment-value
+                                        min-max-iterate-coordinates
                                         generate-polylines generate-polyline
                                         build-line-chart-clj-map find-x-y-min-max
                                         format-segment-value bar-axis-segment
@@ -240,6 +241,70 @@
             [1553030400000 300]
             [1557030400000 400]
             [1561030400000 500]])
+       )
+      
+     )
+    
+   ))
+
+(deftest test-min-max-iterate-coordinates
+  (testing "Test min max iterate coordinates"
+    
+    (let [dot-values nil
+          x-min nil
+          x-max nil
+          y-min nil
+          y-max nil
+          result (min-max-iterate-coordinates
+                   dot-values
+                   x-min
+                   x-max
+                   y-min
+                   y-max)]
+      
+      (is
+        (nil?
+          result)
+       )
+      
+     )
+    
+    (let [dot-values [[20 20] [30 30] [40 40]]
+          x-min (atom (aget
+                        js/Number
+                        "MAX_SAFE_INTEGER"))
+          x-max (atom (aget
+                        js/Number
+                        "MIN_SAFE_INTEGER"))
+          y-min (atom (aget
+                        js/Number
+                        "MAX_SAFE_INTEGER"))
+          y-max (atom (aget
+                        js/Number
+                        "MIN_SAFE_INTEGER"))
+          result (min-max-iterate-coordinates
+                   dot-values
+                   x-min
+                   x-max
+                   y-min
+                   y-max)]
+      (is
+        (= @x-min
+           20)
+       )
+      
+      (is
+        (= @x-max
+           40)
+       )
+      (is
+        (= @y-min
+           20)
+       )
+      
+      (is
+        (= @y-max
+           40)
        )
       
      )
@@ -1425,9 +1490,9 @@
 	              :cont nil}
 	             {:el "text",
 	              :events nil,
-	              :attrs {:x 95, :y 356, :class "y-axis-value-text"},
+	              :attrs {:x 41, :y 356, :class "y-axis-value-text"},
 	              :dynamic-attrs nil,
-	              :cont ""}
+	              :cont "data 1"}
 	             {:el "line",
 	              :events nil,
 	              :attrs {:x1 95,
@@ -1439,9 +1504,9 @@
 	              :cont nil}
 	             {:el "text",
 	              :events nil,
-	              :attrs {:x 95, :y 156, :class "y-axis-value-text"},
+	              :attrs {:x 41, :y 156, :class "y-axis-value-text"},
 	              :dynamic-attrs nil,
-	              :cont ""}
+	              :cont "data 5"}
 	             {:el "text",
 	              :events nil,
 	              :attrs {:x "250",
