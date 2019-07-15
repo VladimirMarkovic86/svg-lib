@@ -1,4 +1,4 @@
-(defproject org.clojars.vladimirmarkovic86/svg-lib "0.1.8"
+(defproject org.clojars.vladimirmarkovic86/svg-lib "0.1.9"
   :description "Scalable Vector Graphics library"
   :url "http://github.com/VladimirMarkovic86/svg-lib"
   :license {:name "Eclipse Public License"
@@ -13,6 +13,8 @@
   :min-lein-version "2.0.0"
   
   :source-paths ["src/cljs"]
+  
+  :jar-exclusions [#"^public/"]
 
   :plugins [[lein-cljsbuild  "1.1.7"]
             [lein-doo "0.1.11"]
