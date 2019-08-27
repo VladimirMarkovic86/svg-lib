@@ -1,13 +1,18 @@
-(defproject org.clojars.vladimirmarkovic86/svg-lib "0.1.11"
+(defproject org.clojars.vladimirmarkovic86/svg-lib "0.1.12"
   :description "Scalable Vector Graphics library"
   :url "http://github.com/VladimirMarkovic86/svg-lib"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.10.339"]
+                 [org.clojars.vladimirmarkovic86/ajax-lib "0.1.14"]
                  [org.clojars.vladimirmarkovic86/htmlcss-lib "0.1.9"]
-                 [org.clojars.vladimirmarkovic86/js-lib "0.1.19"]
+                 [org.clojars.vladimirmarkovic86/js-lib "0.1.20"]
+                 [org.clojars.vladimirmarkovic86/validator-lib "0.1.41"]
+                 [org.clojars.vladimirmarkovic86/framework-lib "0.2.52"]
                  [org.clojars.vladimirmarkovic86/utils-lib "0.4.13"]
+                 [org.clojars.vladimirmarkovic86/language-lib "0.2.39"]
+                 [org.clojars.vladimirmarkovic86/common-middle "0.2.13"]
                  ]
 
   :min-lein-version "2.0.0"

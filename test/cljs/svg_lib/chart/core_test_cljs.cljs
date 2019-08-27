@@ -1,4 +1,4 @@
-(ns svg-lib.core-test-cljs
+(ns svg-lib.chart.core-test-cljs
   (:require [clojure.test :refer-macros [deftest is testing]]
             [utils-lib.core :as utils]
             [svg-lib.chart.core :refer [axis-segment calculate-segment-value
