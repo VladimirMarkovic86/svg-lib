@@ -7,7 +7,7 @@ Scalable Vector Graphics library is clojurescript project that implements svg re
 You can use this project as dependency in clojurescript projects by listing it in project.clj.
 
 ```
-[org.clojars.vladimirmarkovic86/svg-lib "0.1.0"]
+[org.clojars.vladimirmarkovic86/svg-lib "0.1.12"]
 ```
 
 ## Authors
